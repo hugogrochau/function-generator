@@ -16,7 +16,6 @@ pow:
 	$(call debug, pow.c, pow)
 	@echo "** Compiled pow **"
 
-
 boo:
 	$(call debug, boo.c, boo)
 	@echo "** Compiled boo **"

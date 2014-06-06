@@ -8,5 +8,11 @@
 * Lorenzo Saraiva
 
 ## Como rodar
-* `make` para compilar o teste
-* `make run` para compilar e rodar
+* `make` para compilar todos os testes
+* `make clean` para limpar o projeto
+* `make run` para compilar todos os testes e executa-los
+* `make [test]` para rodar um teste especifico
+* Testes disponíveis:
+    * pow
+    * boo
+    * prefixo
