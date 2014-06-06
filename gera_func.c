@@ -84,22 +84,22 @@ size_t calc_num_bytes_params(int n, Parametro params[]) {
         switch (params[n].tipo) {
         case DOUBLE_PAR:
             if (params[n].amarrado)
-                num_bytes += 10;
+                num_bytes += 10; /* push CONST x2 */
             else
-                num_bytes += 6;
+                num_bytes += 6; /* push offset(%ebp) x2 */
             break;
         case INT_PAR:
         case PTR_PAR:
             if (params[n].amarrado)
-                num_bytes += 5;
+                num_bytes += 5; /* push COST */
             else
-                num_bytes += 3;
+                num_bytes += 3; /* push offset(%ebp) */
             break;
         case CHAR_PAR:
             if (params[n].amarrado)
-                num_bytes += 2;
+                num_bytes += 2; /* pushb CONST */
             else
-                num_bytes += 3;
+                num_bytes += 3; /* push offset(%ebp) */
             break;
         }
     }
@@ -114,6 +114,7 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
     /* "pushando" os parâmetros da direita para a esquerda */
     while (i--) {
         if (params[i].amarrado) {
+            /* push params[i].valor */
             switch (params[i].tipo) {
             case DOUBLE_PAR:
                 /* "pushando" o double de 4 a 4 bytes */
@@ -138,6 +139,7 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
             }
         } else {
             posicao = posicao_na_pilha(n, params, params[i].posicao);
+            /* push posicao(%ebp) */
             switch (params[i].tipo) {
             case DOUBLE_PAR:
                 *((DoisBytes *) bytes_func) = OP_PUSH_EBP;
