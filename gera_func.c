@@ -185,7 +185,7 @@ size_t posicao_na_pilha(int n, Parametro params[], int posicao) {
     int i;
     size_t num_bytes = 0;
     for (i = 0; i < n; i++)
-        /* Se o parâmetros for amarrado e vier antes */
+        /* Se o parâmetro não for amarrado e vier antes */
         if (!params[i].amarrado && params[i].posicao < posicao)
             num_bytes += tam_tipo_param(&params[i]);
     return num_bytes + 8;
