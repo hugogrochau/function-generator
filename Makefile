@@ -1,33 +1,47 @@
-SRC = main.c gera_func.c
+SRC = gera_func.c
 CC = gcc
 CC_ARGS = -Wa,--execstack -Wall -m32 -ansi -o
 OBJ_ARGS = -m32 -c
 CC_DEBUG_ARGS = -D_DEBUG -g
-BIN = exec
+BIN = pow boo prefixo
 
-main:
-	$(CC) $(CC_ARGS) $(BIN) $(SRC) -lm
+debug =	$(CC) $(CC_DEBUG_ARGS) $(CC_ARGS)$(2)$(1) $(SRC) -lm
+compile = $(CC) $(CC_ARGS)$(2)$(1) $(SRC) -lm
+dump = hexdump -C debug_func.bin
 
-debug:
-	$(CC) $(CC_DEBUG_ARGS) $(CC_ARGS) $(BIN) $(SRC) -lm
+main: pow boo prefixo
+	@echo "** Compiled Everything **"
+
+pow:
+	$(call debug, pow.c, pow)
+	@echo "** Compiled pow **"
+
+
+boo:
+	$(call debug, boo.c, boo)
+	@echo "** Compiled boo **"
+
+prefixo:
+	$(call debug, prefixo.c, prefixo)
+	@echo "** Compiled prefixo **"
+
+run: main
+	@echo "** Running pow **"
+	./pow
+	$(dump)
+	@echo "** Running boo **"
+	./boo
+	$(dump)
+	@echo "** Running prefixo **"
+	./prefixo
+	$(dump)
+	rm debug_func.bin
 
 prototype:
 	$(CC) $(OBJ_ARGS) prototype.s
 	objdump -d prototype.o
 
-run: main
-	./$(BIN)
-
-drun: debug
-	./$(BIN)
-
-dump:
-	hexdump -C debug_func.bin
-
-debugger: debug
-	gdb ./$(BIN)
-
 clean:
-	rm *.o
-	rm *.bin
-	rm $(BIN)
+	rm -f *.o *.bin $(BIN)
+
+.PHONY: main pow boo prefixo
