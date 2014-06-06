@@ -68,25 +68,24 @@ void libera_func(void *f) {
 }
 
 size_t calc_num_bytes_params(int n, Parametro params[]) {
-    int i;
     size_t num_bytes = 0;
-    for (i = 0; i < n; i++) {
-        switch (params[i].tipo) {
+    while (n--) {
+        switch (params[n].tipo) {
         case DOUBLE_PAR:
-            if (params[i].amarrado)
+            if (params[n].amarrado)
                 num_bytes += 10;
             else
                 num_bytes += 6;
             break;
         case INT_PAR:
         case PTR_PAR:
-            if (params[i].amarrado)
+            if (params[n].amarrado)
                 num_bytes += 5;
             else
                 num_bytes += 3;
             break;
         case CHAR_PAR:
-            if (params[i].amarrado)
+            if (params[n].amarrado)
                 num_bytes += 2;
             else
                 num_bytes += 3;
@@ -97,17 +96,17 @@ size_t calc_num_bytes_params(int n, Parametro params[]) {
 }
 
 void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
-    int i, posicao;
+    int i = n, posicao;
     size_t num_bytes = 0;
-    for (i = 0; i < n; i++) {
+    while (i--) { /* pushando da esquerda para direita */
         if (params[i].amarrado) {
             switch (params[i].tipo) {
             case DOUBLE_PAR:
                 *(bytes_func++) = OP_PUSH_WORD;
-                *((Word *)bytes_func) = (Word) params[i].valor.v_double >> sizeof(Word);
+                *((Word *)bytes_func) = ((Word *) &params[i].valor.v_double)[1];
                 bytes_func += sizeof(Word);
-                *(bytes_func++) = OP_PUSH_WORD;
                 *((Word *)bytes_func) = (Word) params[i].valor.v_double;
+                *(bytes_func++) = OP_PUSH_WORD;
                 bytes_func += sizeof(Word);
                 break;
             case INT_PAR:
@@ -143,7 +142,8 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
         }
     }
     *(bytes_func++) = OP_CALL;
-    *((void **) bytes_func) = (void *) (unsigned int) f - ((unsigned int) bytes_func + 3);
+    *((void **) bytes_func) = (void *) (unsigned int) f -
+                              ((unsigned int) bytes_func + 4);
     bytes_func += sizeof(void *);
 
     *((DoisBytes *) bytes_func) = OP_ADD_ESP;
