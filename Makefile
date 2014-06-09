@@ -3,13 +3,13 @@ CC = gcc
 CC_ARGS = -Wa,--execstack -Wall -m32 -ansi -o
 OBJ_ARGS = -m32 -c
 CC_DEBUG_ARGS = -D_DEBUG -g
-BIN = pow boo prefixo
+BIN = pow boo prefixo calcula
 
 debug =	$(CC) $(CC_DEBUG_ARGS) $(CC_ARGS)$(2)$(1) $(SRC) -lm
 compile = $(CC) $(CC_ARGS)$(2)$(1) $(SRC) -lm
 dump = hexdump -C debug_func.bin
 
-main: pow boo prefixo
+main: pow boo prefixo calcula
 	@echo "** Compiled Everything **"
 
 pow:
@@ -24,6 +24,10 @@ prefixo:
 	$(call debug, prefixo.c, prefixo)
 	@echo "** Compiled prefixo **"
 
+calcula:
+	$(call debug, calcula.c, calcula)
+	@echo "** Compiled calcula **"
+
 run: main
 	@echo "** Running pow **"
 	./pow
@@ -34,6 +38,9 @@ run: main
 	@echo "** Running prefixo **"
 	./prefixo
 	$(dump)
+	@echo "** Running calcula **"
+	./calcula
+	$(dump)
 	rm debug_func.bin
 
 prototype:
@@ -43,4 +50,4 @@ prototype:
 clean:
 	rm -f *.o *.bin $(BIN)
 
-.PHONY: main pow boo prefixo
+.PHONY: main pow boo prefixo calcula

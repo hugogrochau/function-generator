@@ -21,7 +21,7 @@ typedef Byte *ByteArray;
 typedef unsigned int Word;
 typedef unsigned short DoisBytes;
 
-size_t calc_num_bytes_params(int n, Parametro params[]);
+size_t calc_num_bytes_instrucao(int n, Parametro params[]);
 void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f);
 size_t tam_tipo_param(Parametro *param);
 size_t posicao_na_pilha(int n, Parametro params[], int posicao);
@@ -36,7 +36,7 @@ void *gera_func(void *f, int n, Parametro params[]) {
     FILE *fp = fopen("debug_func.bin", "w");
 #endif
 
-    size_t num_bytes_params = calc_num_bytes_params(n, params);
+    size_t num_bytes_params = calc_num_bytes_instrucao(n, params);
     /* alocando o espaço necessário para todas as instruções */
     void *nova_func = malloc(NUM_BYTES_INICIALIZACAO +
                              num_bytes_params +
@@ -78,7 +78,7 @@ void libera_func(void *f) {
 
 /* Calcula o número de bytes de instruções para dar push em todos os
    parâmetros */
-size_t calc_num_bytes_params(int n, Parametro params[]) {
+size_t calc_num_bytes_instrucao(int n, Parametro params[]) {
     size_t num_bytes = 0;
     while (n--) {
         switch (params[n].tipo) {
@@ -159,8 +159,8 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
     /* call f */
     *(bytes_func++) = OP_CALL;
     /* calculando o offset */
-    *((void **) bytes_func) = (void *) (unsigned int) f -
-                              ((unsigned int) bytes_func + 4);
+    *((void **) bytes_func) = (void *) (int) f -
+                              ((int) bytes_func + 4);
     bytes_func += sizeof(void *);
 
     /* add num_bytes, %esp */
