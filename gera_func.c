@@ -145,10 +145,6 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
                 *((DoisBytes *) bytes_func) = OP_PUSH_EBP;
                 bytes_func += sizeof(DoisBytes);
                 *(bytes_func++) = (Byte) posicao + sizeof(Word);
-                *((DoisBytes *) bytes_func) = OP_PUSH_EBP;
-                bytes_func += sizeof(DoisBytes);
-                *(bytes_func++) = (Byte) posicao;
-                break;
             case INT_PAR:
             case PTR_PAR:
             case CHAR_PAR:
