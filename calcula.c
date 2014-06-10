@@ -28,8 +28,8 @@ int main(void) {
     a = 2;
     b = 142341234.32144;
     c = 3.1;
-    printf("calcula(%d,%f,%f) = %f\n", a, b, c, calcula(a, b, c));
-    printf("foo(%d,%f,%f) = %f\n", a, b, c, foo(a, b, c));
+    printf("calcula(%d,%lf,%lf) = %lf\n", a, b, c, calcula(a, b, c));
+    printf("foo(%d,%lf,%lf) = %lf\n", a, b, c, foo(a, b, c));
 
     return 0;
 }
