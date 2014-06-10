@@ -121,8 +121,8 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
                 *(bytes_func++) = OP_PUSH_WORD;
                 *((Word *)bytes_func) = ((Word *) &params[i].valor.v_double)[1];
                 bytes_func += sizeof(Word);
-                *((Word *)bytes_func) = (Word) params[i].valor.v_double;
                 *(bytes_func++) = OP_PUSH_WORD;
+                *((Word *)bytes_func) = ((Word *) &params[i].valor.v_double)[0];
                 bytes_func += sizeof(Word);
                 break;
             case INT_PAR:
@@ -153,8 +153,8 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
                 *(bytes_func++) = (Byte) posicao;
                 break;
             }
-            num_bytes += tam_tipo_param(&params[i]);
         }
+        num_bytes += tam_tipo_param(&params[i]);
     }
     /* call f */
     *(bytes_func++) = OP_CALL;
