@@ -12,8 +12,6 @@ typedef double (*func_ptr) (int a, double b);
 int main(void) {
     Parametro params[3];
     func_ptr foo = NULL;
-    int a;
-    double b, c;
 
     params[0].tipo = INT_PAR;
     params[0].amarrado = 0;
@@ -25,16 +23,12 @@ int main(void) {
     params[2].amarrado = 1;
     params[2].valor.v_double = DBL_MAX;
 
-
     foo = gera_func(calcula, 3, params);
-    a = 2;
-    b = DBL_MIN;
-    c = DBL_MAX;
-    printf("%llx\n", b);
-    printf("%llx\n", c);
 
-    printf("calcula(%d,%lf,%lf) = %lf\n", a, b, c, calcula(a, b, c));
-    printf("foo(%d,%lf) = %lf\n", a, b, foo(a, b));
+    printf("calcula(2, DBL_MIN, DBL_MAX) = %lf\n",
+            calcula(2, DBL_MIN, DBL_MAX));
+    printf("foo(2, DBL_MIN) = %lf\n",
+            foo(2, DBL_MIN));
 
     return 0;
 }
