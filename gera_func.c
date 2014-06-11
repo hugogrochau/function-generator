@@ -13,12 +13,11 @@
 #define OP_CALL 0xE8
 #define OP_ADD_ESP 0xC483
 #define OP_PUSH_BYTE 0x6A
-#define OP_PUSH_WORD 0x68
-#define OP_PUSH_EBP 0x75FF
+#define OP_PUSH_LONG 0x68
+#define OP_PUSH_LONG_EBP 0x75FF
 
 typedef unsigned char Byte;
 typedef Byte *ByteArray;
-typedef unsigned int Word;
 typedef unsigned short DoisBytes;
 
 size_t calc_num_bytes_instrucao(int n, Parametro params[]);
@@ -118,20 +117,20 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
             switch (params[i].tipo) {
             case DOUBLE_PAR:
                 /* "pushando" o double de 4 a 4 bytes */
-                *(bytes_func++) = OP_PUSH_WORD;
-                *((Word *)bytes_func) = ((Word *) &params[i].valor.v_double)[1];
-                bytes_func += sizeof(Word);
-                *(bytes_func++) = OP_PUSH_WORD;
-                *((Word *)bytes_func) = ((Word *) &params[i].valor.v_double)[0];
-                bytes_func += sizeof(Word);
+                *(bytes_func++) = OP_PUSH_LONG;
+                *((long *)bytes_func) = ((long *) &params[i].valor.v_double)[1];
+                bytes_func += sizeof(long);
+                *(bytes_func++) = OP_PUSH_LONG;
+                *((long *)bytes_func) = ((long *) &params[i].valor.v_double)[0];
+                bytes_func += sizeof(long);
                 break;
             case INT_PAR:
             case PTR_PAR:
-                *(bytes_func++) = OP_PUSH_WORD;
+                *(bytes_func++) = OP_PUSH_LONG;
                 /* na memória não importa se acessamos a union como uma v_int
                    ou v_ptr */
-                *((Word *)bytes_func) = (Word) params[i].valor.v_int;
-                bytes_func += sizeof(Word);
+                *((int *)bytes_func) = (int) params[i].valor.v_int;
+                bytes_func += sizeof(int);
                 break;
             case CHAR_PAR:
                 *(bytes_func++) = (Byte) OP_PUSH_BYTE;
@@ -142,13 +141,13 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
             /* push posicao(%ebp) */
             switch (params[i].tipo) {
             case DOUBLE_PAR:
-                *((DoisBytes *) bytes_func) = OP_PUSH_EBP;
+                *((DoisBytes *) bytes_func) = OP_PUSH_LONG_EBP;
                 bytes_func += sizeof(DoisBytes);
-                *(bytes_func++) = (Byte) posicao + sizeof(Word);
+                *(bytes_func++) = (Byte) posicao + sizeof(long);
             case INT_PAR:
             case PTR_PAR:
             case CHAR_PAR:
-                *((DoisBytes *) bytes_func) = OP_PUSH_EBP;
+                *((DoisBytes *) bytes_func) = OP_PUSH_LONG_EBP;
                 bytes_func += sizeof(DoisBytes);
                 *(bytes_func++) = (Byte) posicao;
                 break;
@@ -173,7 +172,7 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
 size_t tam_tipo_param(Parametro *param) {
     if (param->tipo == DOUBLE_PAR)
         return sizeof(double);
-    return sizeof(Word);
+    return sizeof(long);
 }
 
 /* Retorna a posição do parâmetro na pilha */
