@@ -15,40 +15,37 @@ main: pow boo prefixo calcula testes-prof
 pow:
 	$(call debug, pow.c, pow)
 	@echo "** Compiled pow **"
+	@echo "** Running pow **"
+	./pow
+	$(dump)
 
 boo:
 	$(call debug, boo.c, boo)
 	@echo "** Compiled boo **"
+	@echo "** Running boo **"
+	./boo
+	$(dump)
 
 prefixo:
 	$(call debug, prefixo.c, prefixo)
 	@echo "** Compiled prefixo **"
+	@echo "** Running prefixo **"
+	./prefixo
+	$(dump)
 
 calcula:
 	$(call debug, calcula.c, calcula)
 	@echo "** Compiled calcula **"
+	@echo "** Running calcula **"
+	./calcula
+	$(dump)
 
 testes-prof:
 	$(call debug, testes-prof.c, testes-prof)
 	@echo "** Compiled testes-prof **"
-
-run: main
-	@echo "** Running pow **"
-	./pow
-	$(dump)
-	@echo "** Running boo **"
-	./boo
-	$(dump)
-	@echo "** Running prefixo **"
-	./prefixo
-	$(dump)
-	@echo "** Running calcula **"
-	./calcula
-	$(dump)
 	@echo "** Running testes-prof **"
 	./testes-prof
 	$(dump)
-	rm debug_func.bin
 
 prototype:
 	$(CC) $(OBJ_ARGS) prototype.s
