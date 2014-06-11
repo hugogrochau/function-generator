@@ -25,9 +25,9 @@ int main(void) {
 
     foo = gera_func(calcula, 3, params);
 
-    printf("calcula(2, DBL_MIN, DBL_MAX) = %lf\n",
+    printf("calcula(2, DBL_MIN, DBL_MAX) = %llx\n",
             calcula(2, DBL_MIN, DBL_MAX));
-    printf("foo(2, DBL_MIN) = %lf\n",
+    printf("foo(2, DBL_MIN) =              %llx\n",
             foo(2, DBL_MIN));
 
     return 0;
