@@ -27,7 +27,8 @@ size_t posicao_na_pilha(int n, Parametro params[], int posicao);
 
 void *gera_func(void *f, int n, Parametro params[]) {
     const Byte bytes_inicializacao[NUM_BYTES_INICIALIZACAO] = {0x55, 0x89,
-                                                               0xe5};
+                                                               0xe5
+                                                              };
     const Byte bytes_finalizacao[NUM_BYTES_FINALIZACAO] = {0xc9, 0xc3};
     ByteArray bytes_nova_func;
 
@@ -134,7 +135,8 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
                 break;
             case CHAR_PAR:
                 *(bytes_func++) = (Byte) OP_PUSH_BYTE;
-                *(bytes_func++) = (char) params[i].valor.v_char;
+                *bytes_func = (char) params[i].valor.v_char;
+                bytes_func += sizeof(char);
             }
         } else {
             posicao = posicao_na_pilha(n, params, params[i].posicao);
@@ -162,7 +164,8 @@ void gera_instrucoes(int n, Parametro params[], ByteArray bytes_func, void *f) {
                               ((int) bytes_func + 4);
     bytes_func += sizeof(void *);
 
-    /* add num_bytes, %esp */
+    /* add num_bytes, %esp (poderia ser omitido já que a finalização vem logo
+    em seguida) */
     *((DoisBytes *) bytes_func) = OP_ADD_ESP;
     bytes_func += sizeof(DoisBytes);
     *(bytes_func++) = (Byte) num_bytes;
