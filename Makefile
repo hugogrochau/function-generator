@@ -1,6 +1,6 @@
 SRC = gera_func.c
 CC = gcc
-CC_ARGS = -Wa,--execstack -Wall -m32 -ansi -o
+CC_ARGS = -Wa,--execstack -Wall -m32 -o
 OBJ_ARGS = -m32 -c
 CC_DEBUG_ARGS = -D_DEBUG -g
 BIN = pow boo prefixo calcula testes-prof

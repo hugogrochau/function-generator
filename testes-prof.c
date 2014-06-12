@@ -31,8 +31,6 @@ int quatro(int i, char *p, double d, char c) {
     printf("\n   => segundo esperado = %s recebido = %s ", str1, p);
     printf("\n   => terceiro  esperado = %10.4lf recebido = %10.4lf ", DOUBLE2, d);
     printf("\n   => quarto esperado = %c recebido = %c ", CHAR2, c);
-    printf("\nDOUBLE2: %llx", DOUBLE2);
-    printf("\nd:       %llx\n", d);
 
     return ((i == INTEIRO1) && (d == DOUBLE2) && (p == str1) && (c == CHAR2));
 }
