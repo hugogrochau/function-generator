@@ -3,4 +3,10 @@ Hugo Pedrotti Grochau   1310486 3WA
 
 A função teve sucesso em todos os testes implementados.
 
-Primeiro, fizemos os testes especificados no enunciado do trabalho: boo, pow e prefixo. Na função boo, era testada a inversão de parâmetros, na pow eram testados doubles, tanto amarrados como não amarrados, e na prefixo eram testados ponteiros. Depois, implementamos o módulo calcula, que testava doubles grandes, tanto amarrados quanto não amarrados. Finalmente, o teste mandado por email testou tudo acima, e também chars, amarrados e não amarrados, que era o que faltava.
+Primeiro, fizemos os testes especificados no enunciado do trabalho: boo, pow e
+prefixo. Na função boo, era testada a inversão de parâmetros, na pow eram
+testados doubles, tanto amarrados como não amarrados, e na prefixo eram
+testados ponteiros. Depois, implementamos o módulo calcula, que testava doubles
+grandes, tanto amarrados quanto não amarrados. Finalmente, o teste mandado por
+email testou tudo acima, e também chars, amarrados e não amarrados, que era o
+que faltava.
